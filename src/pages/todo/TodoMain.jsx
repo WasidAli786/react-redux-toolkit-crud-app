@@ -1,5 +1,5 @@
 import React from "react";
-import { Center, SimpleGrid, Text } from "@chakra-ui/react";
+import { Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import TodoCard from "../../components/pages/TodoCard";
 import { useDispatch, useSelector } from "react-redux";
 import Buttons from "../../components/uiElements/Button";
@@ -17,7 +17,12 @@ const TodoMain = () => {
   return (
     <>
       <div className="container">
-        <SimpleGrid columns={[1, 2, null, 3]} spacing={10}>
+        {todoData?.length > 0 && (
+          <Flex justify="flex-end">
+            <Buttons title="Clear All" onClick={onClearAllTodo} />
+          </Flex>
+        )}
+        <SimpleGrid columns={[1, 2, null, 3]} spacing={10} mt="30px">
           {todoData?.length ? (
             todoData?.map((items, index) => (
               <motion.div
@@ -38,11 +43,6 @@ const TodoMain = () => {
             <Text>No data found</Text>
           )}
         </SimpleGrid>
-        {todoData?.length > 0 && (
-          <Center mt="50px">
-            <Buttons title="Clear All" onClick={onClearAllTodo} />
-          </Center>
-        )}
       </div>
     </>
   );
