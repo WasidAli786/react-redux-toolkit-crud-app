@@ -21,9 +21,13 @@ const Navbar = () => {
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-        px="50px"
+        px={["20px", null, "50px"]}
       >
-        <Text fontSize="30px" fontWeight={600} cursor="pointer">
+        <Text
+          fontSize={["20px", null, "30px"]}
+          fontWeight={600}
+          cursor="pointer"
+        >
           React Crud
         </Text>
         <Buttons
