@@ -25,6 +25,7 @@ const TodoModal = ({ isOpen, onClose, editData }) => {
         title: editData?.title,
         description: editData?.description,
       });
+      setSliderValue(editData?.sliderValue);
     }
   }, [editData]);
 
@@ -50,7 +51,11 @@ const TodoModal = ({ isOpen, onClose, editData }) => {
   };
   return (
     <>
-      <ChakraModal isOpen={isOpen} onClose={onClose} modalTitle="Add Todo">
+      <ChakraModal
+        isOpen={isOpen}
+        onClose={onClose}
+        modalTitle={editData ? "Update Todo" : "Add Todo"}
+      >
         <form onSubmit={handleSubmit(onAddAndUpdateTodo)}>
           <Stack spacing="15px" pb="10px">
             <TextField
@@ -73,7 +78,10 @@ const TodoModal = ({ isOpen, onClose, editData }) => {
             />
             <Flex justify="flex-end" gap="10px">
               <Buttons title="Cancel" variant="ghost" onClick={onClose} />
-              <Buttons title="Add Todo" type="submit" />
+              <Buttons
+                title={editData ? "Update Todo" : "Add Todo"}
+                type="submit"
+              />
             </Flex>
           </Stack>
         </form>

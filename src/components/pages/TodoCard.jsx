@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Divider,
@@ -11,13 +11,21 @@ import {
   Stack,
   Tag,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { deleteTodo } from "../../redux/feature/todoSlice";
 import { useDispatch } from "react-redux";
+import TodoModal from "../../pages/todo/TodoModal";
+import AlertDialogModal from "../uiElements/AlertDialogModal";
 
-const TodoCard = ({ items, onOpen, setEditData }) => {
+const TodoCard = ({ items }) => {
   const dispatch = useDispatch();
+  const isAddUpdateTodoModalOpen = useDisclosure();
+  const isAlertDialogOpen = useDisclosure();
+
+  const [editData, setEditData] = useState();
+  const [deleteID, setDeleteID] = useState();
 
   const status =
     items?.sliderValue <= 40
@@ -26,13 +34,19 @@ const TodoCard = ({ items, onOpen, setEditData }) => {
       ? "green"
       : "blue";
 
-  const onDeleteTodo = (id) => {
-    dispatch(deleteTodo(id));
+  const onOpenDeleteDialog = (id) => {
+    setDeleteID(id);
+    isAlertDialogOpen.onOpen();
+  };
+
+  const onDeleteTodo = () => {
+    dispatch(deleteTodo(deleteID));
+    isAlertDialogOpen.onClose();
   };
 
   const onEditTodo = (values) => {
     setEditData(values);
-    onOpen();
+    isAddUpdateTodoModalOpen.onOpen();
   };
 
   return (
@@ -48,7 +62,7 @@ const TodoCard = ({ items, onOpen, setEditData }) => {
             </MenuButton>
             <MenuList>
               <MenuItem onClick={() => onEditTodo(items)}>Edit</MenuItem>
-              <MenuItem onClick={() => onDeleteTodo(items?.id)}>
+              <MenuItem onClick={() => onOpenDeleteDialog(items?.id)}>
                 Delete
               </MenuItem>
             </MenuList>
@@ -79,6 +93,18 @@ const TodoCard = ({ items, onOpen, setEditData }) => {
           </Stack>
         </Stack>
       </Box>
+      <TodoModal
+        isOpen={isAddUpdateTodoModalOpen.isOpen}
+        onClose={isAddUpdateTodoModalOpen.onClose}
+        editData={editData}
+      />
+      <AlertDialogModal
+        isOpen={isAlertDialogOpen.isOpen}
+        onClose={isAlertDialogOpen.onClose}
+        title="Delete Todo"
+        description="Are you sure? You can't undo this action afterwards."
+        onClick={onDeleteTodo}
+      />
     </>
   );
 };

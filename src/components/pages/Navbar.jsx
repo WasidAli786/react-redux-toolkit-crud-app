@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Text, useDisclosure } from "@chakra-ui/react";
-import { NavListStyled } from "../style";
 import Buttons from "../uiElements/Button";
 import { AiOutlinePlus } from "react-icons/ai";
 import TodoModal from "../../pages/todo/TodoModal";
+// import { NavListStyled } from "../style";
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,7 +26,12 @@ const Navbar = () => {
         <Text fontSize="30px" fontWeight={600} cursor="pointer">
           React Crud
         </Text>
-        <NavListStyled>
+        <Buttons
+          title="Add New"
+          rightIcon={<AiOutlinePlus />}
+          onClick={onOpenTodoModal}
+        />
+        {/* <NavListStyled>
           <li>home</li>
           <li>todo</li>
           <Buttons
@@ -34,7 +39,7 @@ const Navbar = () => {
             rightIcon={<AiOutlinePlus />}
             onClick={onOpenTodoModal}
           />
-        </NavListStyled>
+        </NavListStyled> */}
       </Box>
       <TodoModal isOpen={isOpen} onClose={onClose} />
     </>

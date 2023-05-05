@@ -24,16 +24,16 @@ export const todoSlice = createSlice({
     },
     deleteTodo: (state, action) => {
       //* this syntax convert proxy array into plain array
-      const localStorageItems = JSON.parse(JSON.stringify(state.todoData));
-      const filterTodo = localStorageItems.filter(
+      const planTodoArray = JSON.parse(JSON.stringify(state.todoData));
+      const filterTodo = planTodoArray.filter(
         (items) => items.id !== action.payload
       );
       state.todoData = filterTodo;
       localStorage.setItem("todo", JSON.stringify(filterTodo));
     },
     updateTodo: (state, action) => {
-      const localStorageItems = JSON.parse(JSON.stringify(state.todoData));
-      const updateTodo = localStorageItems.map((items) =>
+      const planTodoArray = JSON.parse(JSON.stringify(state.todoData));
+      const updateTodo = planTodoArray.map((items) =>
         items.id === action.payload.id ? action.payload : items
       );
       state.todoData = updateTodo;
